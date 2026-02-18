@@ -1,4 +1,5 @@
 :root {
+    /* Light Mode Variables */
     --bg-gradient: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
     --card-bg: rgba(255, 255, 255, 0.9);
     --text-main: #2c3e50;
@@ -12,6 +13,7 @@
 }
 
 body.dark-mode {
+    /* Dark Mode Variables */
     --bg-gradient: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
     --card-bg: rgba(30, 30, 46, 0.9);
     --text-main: #e0e0e0;
@@ -27,16 +29,20 @@ body.dark-mode {
 body {
     margin: 0;
     font-family: 'Quicksand', 'Noto Sans TC', sans-serif;
-    height: 100vh;
+    /* Allow scrolling on mobile */
+    min-height: 100vh;
+    min-height: 100dvh; /* Fix for mobile browser address bars */
     display: flex;
     justify-content: center;
     align-items: center;
     background: var(--bg-gradient);
-    overflow: hidden;
+    overflow-y: auto; 
     transition: background 0.5s ease;
+    padding: 20px; /* Prevent card touching edges */
+    box-sizing: border-box;
 }
 
-/* 頂部工具列 */
+/* --- Top Bar --- */
 .top-bar {
     position: absolute;
     top: 20px;
@@ -47,7 +53,6 @@ body {
     align-items: center;
 }
 
-/* 語言選擇器 */
 .lang-switch {
     position: relative;
     background: rgba(255,255,255,0.2);
@@ -93,14 +98,12 @@ body {
     transform: rotate(20deg);
 }
 
+/* --- Card Container --- */
 .card-container {
     background: var(--card-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-radius: 24px;
-    padding: 2.5rem;
-    width: 85%;
-    max-width: 450px;
     box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
@@ -108,6 +111,12 @@ body {
     text-align: center;
     position: relative;
     transition: background 0.3s ease, box-shadow 0.3s ease;
+    
+    /* Responsive Sizing */
+    width: 100%;
+    max-width: 500px;
+    padding: 2.5rem;
+    margin-top: 40px; /* Space for top bar on mobile */
 }
 
 header {
@@ -148,7 +157,7 @@ header {
     line-height: 1.6;
     margin: 0 0 15px 0;
     font-weight: 700;
-    transition: color 0.3s;
+    transition: color 0.3s, font-size 0.3s;
 }
 
 #author {
@@ -204,18 +213,15 @@ header {
     transition: all 0.2s ease;
 }
 
-/* 複製按鈕動畫關鍵 */
 .btn-icon i {
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* 成功複製時的狀態 */
 .btn-icon.copied {
-    background: #2ecc71 !important; /* 綠色背景 */
+    background: #2ecc71 !important;
     color: white !important;
 }
 
-/* 成功時圖示放大一點 */
 .btn-icon.copied i {
     transform: scale(1.2);
 }
@@ -223,7 +229,40 @@ header {
 .whatsapp { background: #25D366; color: white; }
 .credit { margin-top: 2rem; font-size: 0.75rem; color: var(--text-sub); opacity: 0.6; }
 
+/* --- Mobile Specific Styles --- */
+@media (max-width: 480px) {
+    .top-bar {
+        top: 10px;
+        right: 15px;
+        gap: 10px;
+    }
+
+    .card-container {
+        padding: 1.5rem;
+        width: 90%;
+        border-radius: 20px;
+    }
+
+    #quote {
+        font-size: 1.2rem;
+    }
+
+    .actions {
+        /* On very small screens, stack or wrap */
+        gap: 15px;
+    }
+
+    .btn-primary {
+        padding: 10px 20px;
+        font-size: 0.95rem;
+        flex: 1; /* Grow to fill space */
+    }
+}
+
+/* Fix for landscape orientation on phones */
 @media (max-height: 600px) {
-    .card-container { padding: 1.5rem; }
-    #quote { font-size: 1.2rem; }
+    body {
+        align-items: flex-start;
+        padding-top: 60px;
+    }
 }
